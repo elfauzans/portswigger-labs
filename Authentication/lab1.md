@@ -1,50 +1,58 @@
 # Lab: Username Enumeration via Different Responses
 
-## Deskripsi
+## Overview
 
-Lab ini menunjukkan bagaimana perbedaan respons dari server dapat digunakan untuk menentukan apakah sebuah username valid.
+This lab demonstrates how differences in server responses can be used to identify valid usernames, making it easier for attackers to perform password brute-force attacks.
 
-## Tingkat
+## Difficulty
 
-Apprentice
+**Apprentice**
 
-## Kerentanan
+## Vulnerability
 
-Username Enumeration
+- Username Enumeration
 
 ## Tools
 
-- Burp Suite Community
+- Burp Suite Community Edition
 - Burp Intruder
 
-## Langkah
+## Objective
 
-1. Intercept POST /login.
-2. Kirim request ke Intruder.
-3. Brute-force daftar username.
-4. Amati perbedaan response.
-5. Identifikasi username valid.
-6. Brute-force password untuk username tersebut.
-7. Temukan password dari respons 302.
-8. Login.
+Identify a valid username by analyzing differences in login responses, then brute-force the corresponding password to gain access to the target account.
 
-## Dampak
+## Testing Methodology
 
-Penyerang dapat mengidentifikasi akun yang valid sehingga mempermudah serangan password spraying atau credential stuffing.
+1. Intercept the `POST /login` request using Burp Suite.
+2. Send the request to Burp Intruder.
+3. Perform username enumeration using the provided candidate username list.
+4. Compare the server responses to identify a valid username.
+5. Replace the username with the valid one.
+6. Perform a password brute-force attack using the provided password list.
+7. Identify the successful login attempt based on the HTTP `302 Found` response.
+8. Log in with the discovered credentials.
 
-## Mitigasi
+## Impact
 
-- Gunakan pesan error yang sama untuk username dan password yang salah.
-- Terapkan rate limiting.
-- Tambahkan account lockout.
-- Gunakan MFA.
+Username enumeration allows attackers to determine which accounts exist on a system. This information can significantly improve the effectiveness of password spraying, credential stuffing, and brute-force attacks.
 
-## Screenshot
+## Mitigation
+
+- Return generic error messages for all failed login attempts.
+- Implement rate limiting.
+- Enable account lockout after multiple failed attempts.
+- Require Multi-Factor Authentication (MFA).
+- Log and monitor suspicious authentication attempts.
+
+## Screenshots
 
 - Login page
-- Intruder username enumeration
-- Intruder password brute force
-- Login berhasil
+- Intercepted login request
+- Username enumeration using Burp Intruder
+- Password brute-force using Burp Intruder
+- Successful login
 
-username : adm
-password : aaaaaa 
+## References
+
+- PortSwigger Web Security Academy
+- OWASP Authentication Cheat Sheet
